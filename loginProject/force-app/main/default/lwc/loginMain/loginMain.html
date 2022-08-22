@@ -1,0 +1,12 @@
+<template>
+    <lightning-layout>
+        <lightning-layout-item>
+            <lightning-input id = "logId" type="text" label="Username"></lightning-input>
+            <lightning-input id = "logPass" type="text" label="Password"></lightning-input>
+        </lightning-layout-item>
+        <lightning-layout-item>
+           <lightning-button variant="success" label="Login" title="Login" onclick={handleLogin}></lightning-button>
+           <lightning-button variant="success" label="Register" title="Register" onclick={handleRegister}></lightning-button>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>
