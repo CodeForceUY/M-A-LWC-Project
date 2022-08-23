@@ -1,6 +1,7 @@
 public class loginController {
     
-    public static void registerHandler(string payload){
+    @AuraEnabled
+    public static string registerHandler(string payload){
         loginClass payloadObject = (loginClass) JSON.deserialize(payload, loginClass.class);
   
         SObject login = (SObject) Type.forName('LoginObj__c').newInstance();
@@ -8,21 +9,24 @@ public class loginController {
         login.put('password__c', payloadObject.password);
 
         insert login;
+
+        return String.valueOf(login.Id);
     }
     
-    public static bool loginHandler(string username){
-        bool luzVerde = false;
-        List<LoginObj__c> aux = [SELECT username__c FROM LoginObj__c WHERE username__c = :username];
-        if(aux.lenght() > 0){
-            luzVerde = true;
+    @AuraEnabled
+    public static string loginHandler(string username){
+        string luzVerde;
+        List<LoginObj__c> aux = [SELECT username__c, password__c FROM LoginObj__c WHERE username__c = :username];
+        if(aux.size() > 0){
+            luzVerde = aux[0].password__c;
         }
         return luzVerde;
     }
 
     public class loginClass{
         @AuraEnabled
-        public static string username;
+        public string username;
         @AuraEnabled
-        public static string password;
+        public string password;
     }
 }
